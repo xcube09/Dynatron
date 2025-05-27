@@ -17,13 +17,13 @@ namespace DynatronDemo.WebApi
 			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainBadRequestHandlerBehaviour<,>));
 
+			services.AddDbContext<EfApplicationDbContext>(options =>
+				options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 
 			services.AddScoped<IApplicationDbContext, EfApplicationDbContext>();
 			services.AddTransient<IDateTimeAdaptor, SystemDateTimeAdaptor>();
 
-			services.AddDbContext<EfApplicationDbContext>(options =>
-				options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 			return services;
 		}

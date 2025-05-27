@@ -3,6 +3,7 @@ using DynatronDemo.WebApi.Application.Interfaces;
 using DynatronDemo.WebApi.Infrastructure.Data;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 namespace DynatronDemo.WebApi
@@ -58,6 +59,9 @@ namespace DynatronDemo.WebApi
 				var services = scope.ServiceProvider;
 				try
 				{
+					var dbContext = scope.ServiceProvider.GetRequiredService<EfApplicationDbContext>();
+					dbContext.Database.Migrate();
+
 					SeedData.SeedCustomersAsync(services).Wait();
 				}
 				catch (Exception ex)
